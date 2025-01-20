@@ -7,15 +7,25 @@ const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext()
 
   const handleClick = async () => {
-    const response = await fetch('/api/workouts/' + workout._id, {
-      method: 'DELETE'
-    })
-    const json = await response.json()
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/workouts/${workout._id}`,
+        {
+          method: 'DELETE',
+        }
+      ); // Correctly close the fetch configuration object
 
-    if (response.ok) {
-      dispatch({type: 'DELETE_WORKOUT', payload: json})
+      const json = await response.json();
+
+      if (response.ok) {
+        dispatch({ type: 'DELETE_WORKOUT', payload: json });
+      } else {
+        console.error('Failed to delete workout:', json.error);
+      }
+    } catch (error) {
+      console.error('Error deleting workout:', error);
     }
-  }
+  };
 
   return (
     <div className="workout-details">
@@ -25,7 +35,7 @@ const WorkoutDetails = ({ workout }) => {
       <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
     </div>
-  )
-}
+  );
+};
 
-export default WorkoutDetails
+export default WorkoutDetails;
