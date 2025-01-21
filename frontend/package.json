@@ -1,4 +1,12 @@
 {
+  "name": "express-app",
+  "version": "1.0.0",
+  "description": "An Express.js application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'No build step required for this project'"
+  },
   "dependencies": {
     "express": "^4.21.2"
   }
